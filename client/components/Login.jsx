@@ -22,10 +22,12 @@ class Login extends React.Component {
   render () {
     return (
       <div>
-        <button onClick={this.handleClick}>Login</button>
+      <a href='/api/v1/login'>Login</a>
       </div>
     )
   }
 }
 
 export default Login
+
+// <button onClick={this.handleClick}>Login</button>

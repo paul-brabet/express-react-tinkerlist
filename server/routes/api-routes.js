@@ -1,18 +1,13 @@
-var express = require('express')
-var request = require('request')
-var querystring = require('querystring')
-var cookieParser = require('cookie-parser')
-var superagent = require('superagent')
 var Spotify = require('spotify-web-api-node')
-
-const router = express.Router()
+var express = require('express')
+var router = new express.Router()
 require('dotenv').config()
 
 var client_id = process.env.CLIENT_ID
 var client_secret = process.env.CLIENT_SECRET
 var redirect_uri = process.env.REDIRECT_URI
 var state_key = 'spotify_auth_state'
-var scope = ['user-read-private user-read-email user-read-recently-playe']
+var scope = ['user-read-private', 'user-read-email', 'user-read-recently-played']
 
 /** Configure spotify */
 const spotifyApi = new Spotify({
@@ -52,7 +47,7 @@ router.get('/callback', (req, res) => {
     // Retrieve an access token and a refresh token
     spotifyApi.authorizationCodeGrant(code).then(data => {
       const { expires_in, access_token, refresh_token } = data.body
-
+      console.log(data.body)
       // Set the access token on the API object to use it in later calls
       spotifyApi.setAccessToken(access_token)
       spotifyApi.setRefreshToken(refresh_token)
