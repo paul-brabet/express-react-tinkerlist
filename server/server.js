@@ -3,13 +3,13 @@ var bodyParser = require('body-parser')
 var cors = require('cors')
 var path = require('path')
 
-var widgets = require('./routes/widgets')
+var apiRouter = require('./routes/api-routes')
 
-var app = express()
+var server = express()
 
-app.use(bodyParser.json())
-app.use(cors({origin: 'http://localhost:8080'}))
-app.use(express.static(path.join(__dirname, '../public')))
-app.use('/widgets', widgets)
+server.use('/api/v1', apiRouter)
+server.use(bodyParser.json())
+server.use(cors({origin: 'http://localhost:8080'}))
+server.use(express.static(path.join(__dirname, '../public')))
 
-module.exports = app
+module.exports = server
