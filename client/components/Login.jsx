@@ -19,10 +19,13 @@ class Login extends React.Component {
     })
   }
 
+  // Uses an <a> tag to interact with the server, because if handleClick() is used
+  // Spotify thinks the client_secret is coming from the browser, and nopes out of
+  // sending the server information.
   render () {
     return (
       <div>
-      <a href='/api/v1/login'>Login</a>
+        <a href='/api/v1/login'>Login</a>
       </div>
     )
   }
@@ -30,4 +33,5 @@ class Login extends React.Component {
 
 export default Login
 
+// <a href='/api/v1/login'>Login</a>
 // <button onClick={this.handleClick}>Login</button>
