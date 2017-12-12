@@ -4,7 +4,7 @@ var widgetUrl = 'http://localhost:3000/widgets'
 
 module.exports = {
   getWidgets: getWidgets,
-  appendWidget: appendWidget
+  login: login
 }
 
 function getWidgets (callback) {
@@ -19,15 +19,14 @@ function getWidgets (callback) {
     })
 }
 
-function appendWidget (widget, callback) {
+function login (callback) {
   request
-    .post(widgetUrl)
-    .send(widget)
-    .end(function (err, res) {
+    .get('/api/v1/login')
+    .end((err, res) => {
       if (err) {
         callback(err)
       } else {
-        callback()
+        callback(null, res.body)
       }
     })
 }
