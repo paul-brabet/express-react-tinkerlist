@@ -1,9 +1,11 @@
 import {combineReducers} from 'redux'
 
-import user from './user'
 import tokens from './tokens'
+import loading from './loading'
+import user from './user'
 
 export default combineReducers({
-  user,
-  tokens
+  tokens,
+  loading,
+  user
 })

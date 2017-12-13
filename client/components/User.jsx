@@ -11,11 +11,13 @@ class User extends React.Component {
   }
 
   render () {
-    const {accessToken, refreshToken, user } = this.props
-    const {loading, display_name, images, id, email, external_urls, href, country, product} = user
+    const {tokens, loading, user} = this.props
+    const {accessToken, refreshToken} = tokens
+    const loadingStatus = loading.loading
+    const {display_name, images, id, email, external_urls, href, country, product} = user
     const imageUrl = images[0] ? images[0].url : ''
 
-    if (loading) {
+    if (loadingStatus) {
       return <h2>Loading...</h2>
     }
     return (
@@ -29,8 +31,8 @@ class User extends React.Component {
 
 function mapStateToProps (state) {
   return {
-    accessToken: state.accessToken,
-    refreshToken: state.refreshToken,
+    tokens: state.tokens,
+    loading: state.loading,
     user: state.user
   }
 }
