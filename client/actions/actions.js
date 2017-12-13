@@ -3,7 +3,10 @@ const spotifyApi = new Spotify()
 
 // our constants
 export const SPOTIFY_TOKENS = 'SPOTIFY_TOKENS'
-export const SPOTIFY_ME_BEGIN = 'SPOTIFY_ME_BEGIN'
+
+export const SPOTIFY_LOADING = 'SPOTIFY_LOADING'
+export const SPOTIFY_NOT_LOADING = 'SPOTIFY_NOT_LOADING'
+
 export const SPOTIFY_ME_SUCCESS = 'SPOTIFY_ME_SUCCESS'
 export const SPOTIFY_ME_FAILURE = 'SPOTIFY_ME_FAILURE'
 
@@ -18,11 +21,19 @@ export function setTokens ({accessToken, refreshToken}) {
 /* get the user's info from the /me api */
 export function getMyInfo () {
   return dispatch => {
-    dispatch({type: SPOTIFY_ME_BEGIN})
+    dispatch({type: SPOTIFY_LOADING})
     spotifyApi.getMe().then(data => {
       dispatch({ type: SPOTIFY_ME_SUCCESS, data: data })
+      dispatch({ type: SPOTIFY_NOT_LOADING })
     }).catch(e => {
       dispatch({ type: SPOTIFY_ME_FAILURE, error: e })
+      dispatch({ type: SPOTIFY_NOT_LOADING })      
     })
   }
 }
+
+// export function getMyRecentlyPlayed () {
+//   spotifyApi.getMyRecentlyPlayedTracks().then(data => {
+//     dispatch({ })
+//   })
+// }

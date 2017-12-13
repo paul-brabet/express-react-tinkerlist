@@ -1,11 +1,9 @@
 import {
-  SPOTIFY_ME_BEGIN,
   SPOTIFY_ME_SUCCESS,
   SPOTIFY_ME_FAILURE
 } from '../actions/actions'
 
 const initialState = {
-  loading: false,
   country: null,
   display_name: null,
   email: null,
@@ -22,17 +20,10 @@ const initialState = {
 const user = (state = initialState, action) => {
   switch (action.type) {
 
-  // set our loading property when the loading begins
-  case SPOTIFY_ME_BEGIN:
-    return {
-      ...state,
-      loading: true
-    }
-
   // when we get the data merge it in
   case SPOTIFY_ME_SUCCESS:
     return {
-      loading: false,
+      ...state,
       country: action.data.country,
       display_name: action.data.display_name,
       email: action.data.email,
