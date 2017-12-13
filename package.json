@@ -50,8 +50,11 @@
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.4",
     "express": "^4.16.2",
+    "react-redux": "^5.0.6",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
+    "redux": "^3.7.2",
+    "redux-thunk": "^2.2.0",
     "spotify-web-api-js": "^0.22.1",
     "spotify-web-api-node": "^2.5.0",
     "superagent": "^3.8.2"
