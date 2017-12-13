@@ -8,8 +8,9 @@ var apiRouter = require('./routes/api-routes')
 var server = express()
 
 server.use(cookieParser())
-server.use('/api/v1', apiRouter)
 server.use(bodyParser.json())
+
 server.use(express.static(path.join(__dirname, '../public')))
+server.use('/api/v1', apiRouter)
 
 module.exports = server
