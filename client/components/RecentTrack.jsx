@@ -25,3 +25,7 @@ function RecentTrack (props) {
 }
 
 export default RecentTrack
+
+// <p>Album: {props.album.title}</p>
+
+// <img src = {props.album.images[1].url} />

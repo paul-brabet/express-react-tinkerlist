@@ -9,7 +9,7 @@ class RecentTracks extends React.Component {
   }
 
   render () {
-    const recentlyPlayed = this.props.recentlyPlayed
+    const recentlyPlayed = this.props.recentlyPlayed.items
     const loadingStatus = this.props.loading.loading
 
     if (loadingStatus) {
@@ -21,10 +21,11 @@ class RecentTracks extends React.Component {
         <h2>Your recently played</h2>
         {recentlyPlayed.map(function(item) {
           return (
-            <div key={item.played_at}>
+            <div key={item.tracks.played_at}>
               <RecentTrack 
-                title={item.track.name}
-                artists={item.track.artists}
+                title={item.tracks.track.name}
+                album={item.album}
+                artists={item.tracks.track.artists}
               />
             </div>
           )
@@ -37,7 +38,7 @@ class RecentTracks extends React.Component {
 function mapStateToProps (state) {
   return {
     loading: state.loading,
-    recentlyPlayed: state.recentlyPlayed.tracks
+    recentlyPlayed: state.recentlyPlayed
   }
 }
 
