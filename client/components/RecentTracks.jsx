@@ -9,8 +9,7 @@ class RecentTracks extends React.Component {
   }
 
   render () {
-    // Recently played needs to be converted from array-like to an array in order for forEach to work
-    const recentlyPlayed = Array.from(this.props.recentlyPlayed)
+    const recentlyPlayed = this.props.recentlyPlayed
     const loadingStatus = this.props.loading.loading
 
     if (loadingStatus) {
@@ -20,12 +19,12 @@ class RecentTracks extends React.Component {
     return (
       <div>
         <h2>Your recently played</h2>
-        {recentlyPlayed.forEach(function(item) {
+        {recentlyPlayed.map(function(item) {
           return (
             <div key ='key'>
               <RecentTrack 
-                artist={item.track.artist.name}
-                title={item.track.title}
+                artist={item.track.artists[0].name}
+                title={item.track.name}
               />
             </div>
           )
