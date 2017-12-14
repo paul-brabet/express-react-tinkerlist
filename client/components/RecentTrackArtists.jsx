@@ -2,7 +2,7 @@ import React from 'react'
 
 function RecentTrackArtists (props) {
   return (
-    <span>{props.artist.name} </span>
+    <span> {props.artist.name}</span>
   )
 }
 
