@@ -24,6 +24,7 @@ class RecentTracks extends React.Component {
             <div key={item.played_at}>
               <RecentTrack 
                 title={item.track.name}
+                album={item.track.album}
                 artists={item.track.artists}
               />
             </div>
