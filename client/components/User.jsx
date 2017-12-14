@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { getMyInfo, setTokens } from '../actions/actions'
+import { Link } from 'react-router-dom'
 
 class User extends React.Component {
   componentDidMount () {
@@ -24,6 +25,7 @@ class User extends React.Component {
       <div>
         <h2>{`Logged in as  ${display_name}`}</h2>
         <img src={imageUrl} />
+        <Link to="/recentTracks">See recent tracks</Link>
       </div>
     )
   }
