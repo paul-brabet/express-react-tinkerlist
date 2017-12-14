@@ -9,8 +9,10 @@ function RecentTrack (props) {
     }
   }
   return (
-    <div>
+    <div className="recentArtists">
+      <img src={props.album.images[1].url} />
       <p>Title: {props.title}</p>
+      <p>Album: {props.album.name}</p>
       <p>Artist:
         {artists.map(function(artist) {
           return (
