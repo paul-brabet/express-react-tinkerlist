@@ -21,10 +21,10 @@ class RecentTracks extends React.Component {
         <h2>Your recently played</h2>
         {recentlyPlayed.map(function(item) {
           return (
-            <div key ='key'>
+            <div key={item.played_at}>
               <RecentTrack 
-                artist={item.track.artists[0].name}
                 title={item.track.name}
+                artists={item.track.artists}
               />
             </div>
           )
