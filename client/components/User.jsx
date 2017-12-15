@@ -26,6 +26,7 @@ class User extends React.Component {
         <h2>{`Logged in as  ${display_name}`}</h2>
         <img src={imageUrl} />
         <Link to="/recentTracks">See recent tracks</Link>
+        <Link to="/allPlaylists">See all playlists</Link>
       </div>
     )
   }
