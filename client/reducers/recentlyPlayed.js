@@ -3,7 +3,6 @@ import {
   SPOTIFY_MYRECPLAYED_FAILURE
 } from '../actions/actions'
 
-//need to find out format data arrives in
 const initialState = {
   tracks: []
 }
