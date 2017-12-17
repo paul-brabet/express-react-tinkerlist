@@ -4,7 +4,10 @@ import {
 } from '../actions/actions'
 
 const initialState = {
-  allPlaylists: []
+  href: null,
+  items: [{
+    name: null
+  }]
 }
 
 const allPlaylists = (state = initialState, action) => {
@@ -12,7 +15,8 @@ const allPlaylists = (state = initialState, action) => {
   case SPOTIFY_ALLPLAYLISTS_SUCCESS:
     return {
       ...state,
-      allPlaylists: action.data.items 
+      href: action.data.href,
+      items: action.data.items 
     }
 
   case SPOTIFY_ALLPLAYLISTS_FAILURE: 
