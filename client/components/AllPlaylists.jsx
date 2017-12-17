@@ -9,7 +9,7 @@ class AllPlaylists extends React.Component {
   }
 
   render () {
-    const allPlaylists = this.props.allPlaylists
+    const allPlaylists = this.props.allPlaylists.items
     const loadingStatus = this.props.loading.loading
 
     if(loadingStatus) {
@@ -34,7 +34,7 @@ class AllPlaylists extends React.Component {
 function mapStateToProps (state) {
   return {
     loading: state.loading,
-    allPlaylists: state.allPlaylists.allPlaylists
+    allPlaylists: state.allPlaylists
   }
 }
 
