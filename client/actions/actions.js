@@ -13,8 +13,8 @@ export const SPOTIFY_ME_FAILURE = 'SPOTIFY_ME_FAILURE'
 export const SPOTIFY_MYRECPLAYED_SUCCESS = 'SPOTIFY_MYRECPLAYED_SUCCESS'
 export const SPOTIFY_MYRECPLAYED_FAILURE = 'SPOTIFY_MYRECPLAYED_FAILURE'
 
-export const SPOTIFY_MYPLAYLISTS_SUCCESS = 'SPOTIFY_MYPLAYLISTS_SUCCESS'
-export const SPOTIFY_MYPLAYLISTS_FAILURE = 'SPOTIFY_MYPLAYLISTS_FAILURE'
+export const SPOTIFY_ALLPLAYLISTS_SUCCESS = 'SPOTIFY_ALLPLAYLISTS_SUCCESS'
+export const SPOTIFY_ALLPLAYLISTS_FAILURE = 'SPOTIFY_ALLPLAYLISTS_FAILURE'
 
 
 /** set the app's access and refresh tokens */
@@ -57,10 +57,10 @@ export function getUserPlaylists () {
     dispatch({type: SPOTIFY_LOADING})
     spotifyApi.getUserPlaylists().then(data => {
       dispatch({type: SPOTIFY_NOT_LOADING})
-      dispatch({type: SPOTIFY_MYPLAYLISTS_SUCCESS, data: data})
+      dispatch({type: SPOTIFY_ALLPLAYLISTS_SUCCESS, data: data})
     }).catch(e => {
       dispatch({type: SPOTIFY_NOT_LOADING})
-      dispatch({type: SPOTIFY_MYPLAYLISTS_FAILURE, error:e})
+      dispatch({type: SPOTIFY_ALLPLAYLISTS_FAILURE, error:e})
     })
   }
 }
