@@ -1,11 +1,12 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {getUserPlaylists} from '../actions/actions'
+import {getUserPlaylists, getAllUserPlaylists} from '../actions/actions'
 import Playlist from './Playlist'
 
 class AllPlaylists extends React.Component {
   componentDidMount () {
-    this.props.getUserPlaylists()
+    const accessToken = this.props.tokens.accessToken
+    this.props.getAllUserPlaylists(accessToken)
   }
 
   render () {
@@ -33,6 +34,7 @@ class AllPlaylists extends React.Component {
 
 function mapStateToProps (state) {
   return {
+    tokens: state.tokens,
     loading: state.loading,
     allPlaylists: state.allPlaylists
   }
@@ -40,7 +42,7 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch) {
   return {
-    getUserPlaylists: () => dispatch(getUserPlaylists())
+    getAllUserPlaylists: (accessToken) => dispatch(getAllUserPlaylists(accessToken))
   }
 }
 
