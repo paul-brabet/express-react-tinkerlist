@@ -79,29 +79,6 @@ export function getAllUserPlaylists (accessToken) {
   }
 }
 
-// function getPlaylists (accessToken) {
-//   let endpoint = 'https://api.spotify.com/v1/me/playlists'
-//   let totalPlaylists
-//   while (endpoint) {
-//     console.log('getPlaylist request sent')
-//     request
-//       .get(endpoint)
-//       .set('Authorization', accessToken)
-//       .then(function(res) {
-//         endpoint = res.body.next
-//         if (!totalPlaylists.items) {
-//           totalPlaylists = res.body
-//         } else {
-//           totalPlaylists.items.concat(res.body.items)
-//         }
-//       })
-//       .catch(function(err) {
-//         err.message
-//       })
-//   }
-//   return totalPlaylists
-// }
-
 function getPlaylists (accessToken, endpoint, totalPlaylists) {
   if (!totalPlaylists) {
     let totalPlaylists
@@ -127,19 +104,3 @@ function getPlaylists (accessToken, endpoint, totalPlaylists) {
       console.log(err.message)
     })
 }
-
-// export function getUserPlaylists (recursiveList) {
-//   return dispatch => {
-//     dispatch({type: SPOTIFY_LOADING})
-//     spotifyApi.getUserPlaylists().then(data => {
-//       if (data.next) {
-//         return getUserPlaylists(recursiveList)
-//       }
-//       dispatch({type: SPOTIFY_NOT_LOADING})
-//       dispatch({type: SPOTIFY_ALLPLAYLISTS_SUCCESS, data: data})
-//     }).catch(e => {
-//       dispatch({type: SPOTIFY_NOT_LOADING})
-//       dispatch({type: SPOTIFY_ALLPLAYLISTS_FAILURE, error:e})
-//     })
-//   }
-// }
