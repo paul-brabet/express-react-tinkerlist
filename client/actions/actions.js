@@ -1,4 +1,5 @@
 import Spotify from 'spotify-web-api-js'
+import request from 'superagent'
 const spotifyApi = new Spotify()
 
 // our constants
@@ -12,6 +13,9 @@ export const SPOTIFY_ME_FAILURE = 'SPOTIFY_ME_FAILURE'
 
 export const SPOTIFY_MYRECPLAYED_SUCCESS = 'SPOTIFY_MYRECPLAYED_SUCCESS'
 export const SPOTIFY_MYRECPLAYED_FAILURE = 'SPOTIFY_MYRECPLAYED_FAILURE'
+
+export const SPOTIFY_ALLPLAYLISTS_SUCCESS = 'SPOTIFY_ALLPLAYLISTS_SUCCESS'
+export const SPOTIFY_ALLPLAYLISTS_FAILURE = 'SPOTIFY_ALLPLAYLISTS_FAILURE'
 
 
 /** set the app's access and refresh tokens */
@@ -48,3 +52,94 @@ export function getMyRecentlyPlayed () {
     })
   }
 }
+
+export function getUserPlaylists () {
+  return dispatch => {
+    dispatch({type: SPOTIFY_LOADING})
+    spotifyApi.getUserPlaylists().then(data => {
+      dispatch({type: SPOTIFY_NOT_LOADING})
+      dispatch({type: SPOTIFY_ALLPLAYLISTS_SUCCESS, data: data})
+    }).catch(e => {
+      dispatch({type: SPOTIFY_NOT_LOADING})
+      dispatch({type: SPOTIFY_ALLPLAYLISTS_FAILURE, error:e})
+    })
+  }
+}
+
+export function getAllUserPlaylists (accessToken) {
+  return dispatch => {
+    dispatch({type: SPOTIFY_LOADING})
+    getPlaylists(accessToken, 'https://api.spotify.com/v1/me/playlists').then(data => {
+      dispatch({type: SPOTIFY_NOT_LOADING})
+      dispatch({type: SPOTIFY_ALLPLAYLISTS_SUCCESS, data: data})
+    }).catch(e => {
+      dispatch({type: SPOTIFY_NOT_LOADING})
+      dispatch({type: SPOTIFY_ALLPLAYLISTS_FAILURE, error:e})
+    })
+  }
+}
+
+// function getPlaylists (accessToken) {
+//   let endpoint = 'https://api.spotify.com/v1/me/playlists'
+//   let totalPlaylists
+//   while (endpoint) {
+//     console.log('getPlaylist request sent')
+//     request
+//       .get(endpoint)
+//       .set('Authorization', accessToken)
+//       .then(function(res) {
+//         endpoint = res.body.next
+//         if (!totalPlaylists.items) {
+//           totalPlaylists = res.body
+//         } else {
+//           totalPlaylists.items.concat(res.body.items)
+//         }
+//       })
+//       .catch(function(err) {
+//         err.message
+//       })
+//   }
+//   return totalPlaylists
+// }
+
+function getPlaylists (accessToken, endpoint, totalPlaylists) {
+  if (!totalPlaylists) {
+    let totalPlaylists
+  }
+  return request
+    .get(endpoint)
+    .set('Authorization', 'Bearer ' + accessToken)
+    .set('Accept', 'application/json')
+    .set('Content-Type', 'application/json')
+    .then(function(res) {
+      endpoint = res.body.next
+      if (!totalPlaylists) {
+        totalPlaylists = res.body
+      } else {
+        totalPlaylists.items = totalPlaylists.items.concat(res.body.items)
+      }
+      if (!res.body.next) {
+        return totalPlaylists
+      }
+      return getPlaylists(accessToken, endpoint, totalPlaylists)
+    })
+    .catch(function(err) {
+      console.log(err.message)
+    })
+}
+
+// export function getUserPlaylists (recursiveList) {
+//   return dispatch => {
+//     dispatch({type: SPOTIFY_LOADING})
+//     spotifyApi.getUserPlaylists().then(data => {
+//       if (data.next) {
+//         return getUserPlaylists(recursiveList)
+//       }
+//       dispatch({type: SPOTIFY_NOT_LOADING})
+//       dispatch({type: SPOTIFY_ALLPLAYLISTS_SUCCESS, data: data})
+//     }).catch(e => {
+//       dispatch({type: SPOTIFY_NOT_LOADING})
+//       dispatch({type: SPOTIFY_ALLPLAYLISTS_FAILURE, error:e})
+//     })
+//   }
+// }
