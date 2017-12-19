@@ -89,7 +89,7 @@ function getPlaylists (accessToken, endpoint, totalPlaylists) {
     .set('Accept', 'application/json')
     .set('Content-Type', 'application/json')
     .then(function(res) {
-      endpoint = res.body.next
+      const endpoint = res.body.next
       if (!totalPlaylists) {
         totalPlaylists = res.body
       } else {
