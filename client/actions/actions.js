@@ -81,7 +81,7 @@ export function getAllUserPlaylists (accessToken) {
 
 function getPlaylists (accessToken, endpoint, totalPlaylists) {
   if (!totalPlaylists) {
-    let totalPlaylists
+    const totalPlaylists = {}
   }
   return request
     .get(endpoint)
@@ -103,4 +103,56 @@ function getPlaylists (accessToken, endpoint, totalPlaylists) {
     .catch(function(err) {
       console.log(err.message)
     })
+}
+
+export function getEveryPlaylistTrack (accessToken) {
+  return dispatch => {
+    dispatch({type: SPOTIFY_LOADING})
+    let allTracks
+    getPlaylists (accessToken, 'https://api.spotify.com/v1/me/playlists')
+      .then(allPlaylists => {
+        for (let i = 0; i < allPlaylists.items.length; i++) {
+          const playlistTracksEndpoint = allPlaylists.items[i].tracks.href
+          getPlaylistTracks(accessToken, playlistTracksEndpoint)
+            .then(tracks => {
+              if (!allTracks) {
+                return allTracks = tracks
+              } else {
+                return allTracks = allTracks.concat(tracks)
+              }
+            })
+        }
+        dispatch({type: SPOTIFY_NOT_LOADING})
+        // dispatch({type: SPOTIFY_ALLPLAYLISTS_SUCCESS, allTracks: allTracks})
+        console.log(allTracks)
+      })
+      .catch(e => {
+        console.log(e)
+        // dispatch({type: SPOTIFY_NOT_LOADING})
+        // dispatch({type: SPOTIFY_ALLPLAYLISTS_FAILURE, error:e})
+      })
+  }
+}
+
+function getPlaylistTracks (accessToken, endpoint) {
+  // if (!fullTrackList) {
+  //   let fullTrackList
+    // const fullTrackList = {}
+  // }
+  return request
+    .get(endpoint)
+    .set('Authorization', 'Bearer ' + accessToken)
+    .set('Accept', 'application/json')
+    .set('Content-Type', 'application/json')
+    // .then(function (res) {
+    //   if (!fullTrackList) {
+    //     fullTrackList = res.body
+    //   } else {
+    //     fullTrackList.items = fullTrackList.items.concat(res.body.items)
+    //   }
+    //   if (!res.body.next) {
+    //     return fullTrackList
+    //   }
+    //   return getPlaylistTracks(accessToken, endpoint, fullTrackList)
+    // })
 }

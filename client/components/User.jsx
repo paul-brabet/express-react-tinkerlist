@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { getMyInfo, setTokens } from '../actions/actions'
+import { getMyInfo, setTokens, getEveryPlaylistTrack} from '../actions/actions'
 import { Link } from 'react-router-dom'
 
 class User extends React.Component {
@@ -9,6 +9,7 @@ class User extends React.Component {
     const {accessToken, refreshToken} = params
     this.props.setTokens(accessToken, refreshToken)
     this.props.getMyInfo()
+    getEveryPlaylistTrack(accessToken)
   }
 
   render () {
