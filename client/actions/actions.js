@@ -17,6 +17,8 @@ export const SPOTIFY_MYRECPLAYED_FAILURE = 'SPOTIFY_MYRECPLAYED_FAILURE'
 export const SPOTIFY_ALLPLAYLISTS_SUCCESS = 'SPOTIFY_ALLPLAYLISTS_SUCCESS'
 export const SPOTIFY_ALLPLAYLISTS_FAILURE = 'SPOTIFY_ALLPLAYLISTS_FAILURE'
 
+export const SPOTIFY_EVERYPLAYLISTTRACK_SUCCESS = 'SPOTIFY_EVERYPLAYLISTTRACK_SUCCESS'
+export const SPOTIFY_EVERYPLAYLISTTRACK_FAILURE = 'SPOTIFY_EVERYPLAYLISTTRACK_FAILURE'
 
 /** set the app's access and refresh tokens */
 export function setTokens ({accessToken, refreshToken}) {
@@ -105,39 +107,51 @@ function getPlaylists (accessToken, endpoint, totalPlaylists) {
     })
 }
 
+/** function doesn't currently work properly 
+ * There might be some kind of problem with how it functions asynchronously? Test it out.
+ * If there is an asynchronousity problem, then maybe break it down into functions to make it easier to understand where the async problem is
+ * If there is no problem with synchronous code, then break it down anyway! It will be easier to understand and figure out where the problem lies
+*/
 export function getEveryPlaylistTrack (accessToken) {
   return dispatch => {
     dispatch({type: SPOTIFY_LOADING})
-    let allTracks
     getPlaylists (accessToken, 'https://api.spotify.com/v1/me/playlists')
       .then(allPlaylists => {
-        for (let i = 0; i < allPlaylists.items.length; i++) {
-          const playlistTracksEndpoint = allPlaylists.items[i].tracks.href
-          getPlaylistTracks(accessToken, playlistTracksEndpoint)
-            .then(tracks => {
-              if (!allTracks) {
-                return allTracks = tracks
-              } else {
-                return allTracks = allTracks.concat(tracks)
-              }
-            })
-        }
-        dispatch({type: SPOTIFY_NOT_LOADING})
-        // dispatch({type: SPOTIFY_ALLPLAYLISTS_SUCCESS, allTracks: allTracks})
-        console.log(allTracks)
+        loopOverPlaylistsForTracks(allPlaylists, accessToken)
+          .then(allTracks => {
+            dispatch({type: SPOTIFY_NOT_LOADING})
+            dispatch({type: SPOTIFY_EVERYPLAYLISTTRACK_SUCCESS, allTracks: allTracks})
+          })
       })
       .catch(e => {
         console.log(e)
-        // dispatch({type: SPOTIFY_NOT_LOADING})
-        // dispatch({type: SPOTIFY_ALLPLAYLISTS_FAILURE, error:e})
+        dispatch({type: SPOTIFY_NOT_LOADING})
+        dispatch({type: SPOTIFY_EVERYPLAYLISTTRACK_FAILURE, error:e})
       })
   }
+}
+
+async function loopOverPlaylistsForTracks (allPlaylists, accessToken) {
+  let allTracks
+  for (const playlist of allPlaylists.items) {
+    const playlistTracksEndpoint = playlist.tracks.href
+    await getPlaylistTracks(accessToken, playlistTracksEndpoint)
+      .then(res => {
+        if (!allTracks) {
+          return allTracks = res.body
+        } else {
+          return allTracks.items = allTracks.items.concat(res.body.items)
+        }
+      })
+  }
+  console.log(allTracks)
+  return allTracks
 }
 
 function getPlaylistTracks (accessToken, endpoint) {
   // if (!fullTrackList) {
   //   let fullTrackList
-    // const fullTrackList = {}
+  // const fullTrackList = {}
   // }
   return request
     .get(endpoint)

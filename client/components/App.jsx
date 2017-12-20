@@ -8,6 +8,7 @@ import User from './User'
 import Error from './Error'
 import RecentTracks from './RecentTracks'
 import AllPlaylists from './AllPlaylists'
+import EveryPlaylistTrack from './EveryPlaylistTrack'
 
 export default class App extends React.Component {
 
@@ -17,7 +18,8 @@ export default class App extends React.Component {
         <div>
           <Route exact path='/' component={Home} />
           <Route path='/recentTracks' component={RecentTracks} />
-          <Route path='/allPlaylists' component={AllPlaylists} />          
+          <Route path='/allPlaylists' component={AllPlaylists} />
+          <Route path='/everyPlaylistTrack' component={EveryPlaylistTrack} />
           <Route path='/user/:accessToken/:refreshToken' component={User} />
           <Route path='/error/:errorMsg' component={Error} />
         </div>

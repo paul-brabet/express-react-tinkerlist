@@ -5,6 +5,7 @@ import loading from './loading'
 import user from './user'
 import recentlyPlayed from './recentlyPlayed'
 import allPlaylists from './allPlaylists'
+import everyPlaylistTrack from './everyPlaylistTrack'
 
 
 export default combineReducers({
@@ -12,5 +13,6 @@ export default combineReducers({
   loading,
   user,
   recentlyPlayed,
-  allPlaylists
+  allPlaylists,
+  everyPlaylistTrack
 })
