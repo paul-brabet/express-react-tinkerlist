@@ -107,11 +107,6 @@ function getPlaylists (accessToken, endpoint, totalPlaylists) {
     })
 }
 
-/** function doesn't currently work properly 
- * There might be some kind of problem with how it functions asynchronously? Test it out.
- * If there is an asynchronousity problem, then maybe break it down into functions to make it easier to understand where the async problem is
- * If there is no problem with synchronous code, then break it down anyway! It will be easier to understand and figure out where the problem lies
-*/
 export function getEveryPlaylistTrack (accessToken) {
   return dispatch => {
     dispatch({type: SPOTIFY_LOADING})
