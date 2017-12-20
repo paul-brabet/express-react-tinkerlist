@@ -131,11 +131,11 @@ async function loopOverPlaylistsForTracks (allPlaylists, accessToken) {
   for (const playlist of allPlaylists.items) {
     const playlistTracksEndpoint = playlist.tracks.href
     await getPlaylistTracks(accessToken, playlistTracksEndpoint)
-      .then(res => {
+      .then(fullTrackList => {
         if (!allTracks) {
-          return allTracks = res.body
+          return allTracks = fullTrackList
         } else {
-          return allTracks.items = allTracks.items.concat(res.body.items)
+          return allTracks.items = allTracks.items.concat(fullTrackList.items)
         }
       })
   }
@@ -143,25 +143,25 @@ async function loopOverPlaylistsForTracks (allPlaylists, accessToken) {
   return allTracks
 }
 
-function getPlaylistTracks (accessToken, endpoint) {
-  // if (!fullTrackList) {
-  //   let fullTrackList
-  // const fullTrackList = {}
-  // }
+function getPlaylistTracks (accessToken, endpoint, fullTrackList) {
+  if (!fullTrackList) {
+    let fullTrackList
+  }
   return request
     .get(endpoint)
     .set('Authorization', 'Bearer ' + accessToken)
     .set('Accept', 'application/json')
     .set('Content-Type', 'application/json')
-    // .then(function (res) {
-    //   if (!fullTrackList) {
-    //     fullTrackList = res.body
-    //   } else {
-    //     fullTrackList.items = fullTrackList.items.concat(res.body.items)
-    //   }
-    //   if (!res.body.next) {
-    //     return fullTrackList
-    //   }
-    //   return getPlaylistTracks(accessToken, endpoint, fullTrackList)
-    // })
+    .then(function (res) {
+      if (!fullTrackList) {
+        fullTrackList = res.body
+      } else {
+        fullTrackList.items = fullTrackList.items.concat(res.body.items)
+      }
+      if (res.body.next) {
+        return getPlaylistTracks(accessToken, res.body.next, fullTrackList)
+      } else {
+        return fullTrackList
+      }
+    })
 }
