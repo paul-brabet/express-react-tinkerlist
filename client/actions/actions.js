@@ -20,6 +20,8 @@ export const SPOTIFY_ALLPLAYLISTS_FAILURE = 'SPOTIFY_ALLPLAYLISTS_FAILURE'
 export const SPOTIFY_EVERYPLAYLISTTRACK_SUCCESS = 'SPOTIFY_EVERYPLAYLISTTRACK_SUCCESS'
 export const SPOTIFY_EVERYPLAYLISTTRACK_FAILURE = 'SPOTIFY_EVERYPLAYLISTTRACK_FAILURE'
 
+export const SPOTIFY_PLAYLISTSREMAINING = 'SPOTIFY_PLAYLISTSREMAINING'
+
 /** set the app's access and refresh tokens */
 export function setTokens ({accessToken, refreshToken}) {
   if (accessToken) {
@@ -112,7 +114,7 @@ export function getEveryPlaylistTrack (accessToken) {
     dispatch({type: SPOTIFY_LOADING})
     getPlaylists (accessToken, 'https://api.spotify.com/v1/me/playlists')
       .then(allPlaylists => {
-        loopOverPlaylistsForTracks(allPlaylists, accessToken)
+        loopOverPlaylistsForTracks(allPlaylists, accessToken, dispatch)
           .then(allTracks => {
             dispatch({type: SPOTIFY_NOT_LOADING})
             dispatch({type: SPOTIFY_EVERYPLAYLISTTRACK_SUCCESS, allTracks: allTracks})
@@ -126,12 +128,15 @@ export function getEveryPlaylistTrack (accessToken) {
   }
 }
 
-async function loopOverPlaylistsForTracks (allPlaylists, accessToken) {
+async function loopOverPlaylistsForTracks (allPlaylists, accessToken, dispatch) {
   let allTracks
+  let remainingPlaylists = allPlaylists.items.length
   for (const playlist of allPlaylists.items) {
+    dispatch({type: SPOTIFY_PLAYLISTSREMAINING, remaining: remainingPlaylists})
     const playlistTracksEndpoint = playlist.tracks.href
     await getPlaylistTracks(accessToken, playlistTracksEndpoint)
       .then(fullTrackList => {
+        remainingPlaylists--
         if (!allTracks) {
           return allTracks = fullTrackList
         } else {

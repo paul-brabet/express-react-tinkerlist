@@ -11,9 +11,15 @@ class EveryPlaylistTrack extends React.Component {
   render () {
     const everyPlaylistTrack = this.props.everyPlaylistTrack
     const loadingStatus = this.props.loading.loading
+    const remainingPlaylists = this.props.remainingPlaylists.playlistsRemaining
 
     if(loadingStatus) {
-      return <h2>Loading...</h2>
+      return (
+        <div>
+          <h2>Loading...</h2>
+          <p>{remainingPlaylists} playlists left to process</p>
+        </div>
+      )
     }
 
     return (
@@ -28,7 +34,8 @@ function mapStateToProps (state) {
   return {
     tokens: state.tokens,
     loading: state.loading,
-    everyPlaylistTrack: state.everyPlaylistTrack
+    everyPlaylistTrack: state.everyPlaylistTrack,
+    remainingPlaylists: state.remainingPlaylists
   }
 }
 
