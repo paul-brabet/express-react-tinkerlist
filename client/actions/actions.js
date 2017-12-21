@@ -117,7 +117,7 @@ export function getEveryPlaylistTrack (accessToken) {
         loopOverPlaylistsForTracks(allPlaylists, accessToken, dispatch)
           .then(allTracks => {
             dispatch({type: SPOTIFY_NOT_LOADING})
-            dispatch({type: SPOTIFY_EVERYPLAYLISTTRACK_SUCCESS, allTracks: allTracks})
+            dispatch({type: SPOTIFY_EVERYPLAYLISTTRACK_SUCCESS, allTracks: allTracks.items})
           })
       })
       .catch(e => {

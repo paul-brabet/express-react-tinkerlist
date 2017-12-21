@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { getEveryPlaylistTrack } from '../actions/actions'
+import TrackNoImage from './TrackNoImage'
 
 class EveryPlaylistTrack extends React.Component {
   componentDidMount() {
@@ -17,7 +18,7 @@ class EveryPlaylistTrack extends React.Component {
       return (
         <div>
           <h2>Loading...</h2>
-          <p>{remainingPlaylists} playlists left to process</p>
+          <p>{remainingPlaylists ? remainingPlaylists : 'Lots of'} playlists left to process</p>
         </div>
       )
     }
@@ -25,6 +26,17 @@ class EveryPlaylistTrack extends React.Component {
     return (
       <div>
         <h2>Super playlist</h2>
+        {everyPlaylistTrack.map(function(trackData) {
+          return (
+            <div key={trackData.track.id + trackData.added_at}>
+              <TrackNoImage 
+                title={trackData.track.name}
+                album={trackData.track.album.name}
+                artists={trackData.track.artists}
+              />
+            </div>
+          )
+        })}
       </div>
     )
   }
@@ -34,7 +46,7 @@ function mapStateToProps (state) {
   return {
     tokens: state.tokens,
     loading: state.loading,
-    everyPlaylistTrack: state.everyPlaylistTrack,
+    everyPlaylistTrack: state.everyPlaylistTrack.everyPlaylistTrack,
     remainingPlaylists: state.remainingPlaylists
   }
 }
