@@ -1,59 +1,20 @@
-# A example React project that calls a local web API
+# Tinkerlist
 
-This is a starter project that illustrates React components consuming a web API.
+This is a personal project for managing Spotify playlists. It uses an Express server to handle Spotify authentication, and passes the access token that Spotify provides to the Redux state on the React front end. From there on interaction with Spotify endpoints is handled by the front end.
 
+## Goals
 
-## Steps
+At this stage, the goal is to allow a user to create a 'Superlist' - a playlist that contains every track of every playlist. The Spotify app doesn't have a feature that allows you to randomly play songs from all playlists at once.
 
-To experience this repo in all of its glory:
+Further planned features include:
+- Displaying data about what a playlists' tracks, i.e. genre and decade. Often times with discover playlists or other people's playlists where I don't know the music, I want to know more about the 10 to 100 songs that I'm listening to. But it's not easy to know this without looking at each individual song's album or artist page.
+- An extension of the above, but for most commonly played and most recently played.
+- Displaying data on how popular (or unpopular) the music you've been listening to is. This is partly for the novelty of a 'how hipster are you' gag feature, and partly out of genuine interest. I will likely employ two different ways of viewing this data, one simplisitic one for the gag feature, and something more in depth for the genuine interest.
 
-* Clone this repo
+## Status
 
-```sh
-cd react-to-web-api
-npm install
-npm run dev
-```
+This project is still in its early stages. However the basic structure is there, allowing a user to authenticate with Spotify, and can access playlist data it would otherwise be unable to.
 
-* Navigate to [http://localhost:3000](http://localhost:3000)
+## Thanks
 
-
-## Exercise options
-
-* Understand where and how each component is being used
-
-  - Make small changes to confirm your hypotheses
-  - Reset all changes you've made since last commit with `git checkout .`
-
-* The database can be updated by many users. Simulate this by opening a second browser, having one add a record, and make a 'refresh button' on the second one, which updates the records the client side knows about. Example steps: 
-
-  - [ ] 1. Build the button and get it to log something when you click it
-  - [ ] 2. Get the click to send a GET to your API, and get the server to prove it received it 
-  - [ ] 3. Get the server to respond with the list of current records/widgets.
-  - [ ] 4. Get the client-side to receive that response, and update the client-side state so you can see all the new records
-
-* Extend the details that are stored in widgets - add a `rating` field to what is displayed and on the add form
-
-* Add the ability to delete a widget
-
-* Add the ability to update a widget
-
-  - [ ] 1. Build the button and get it to log something when you click it
-  - [ ] 2. Get the click to send something to your API, and get the server to prove it received something
-  - [ ] 3. Get the server to save something sent with click. Find a way to check something was save to the 'database' (remember we're only storing the database in memory in this exercise)
-  - [ ] 4. Get the server to send a message back to the user, and kick off some update of the user interface (you might want to force it to get all items again, like in the _refresh button_ case)
-
-* Add more components and write tests for them in `test` (the tests can be run with `npm test`)
-
-
-## CORS
-
-Using `npm start`, the client is served from the same the port as the API. In this scenario we don't run into the limitations of CORS (cross-origin resource sharing). However, if we want to expose our API to clients hosted at different domain names and/or ports, we must enable this by configuring our CORS configuration.
-
-To experience the effects of CORS:
-
-* Run `npm start` in one terminal to expose the API on port 3000.
-* Run `npm run dev` in a different terminal to serve the client on port 8080.
-* Visit [http://localhost:8080](http://localhost:8080) and the site should continue to work fine.
-* Have a look at how the Express middleware uses the `cors` package in `server/server.js`. Try commenting out that line and restarting `npm start`. Refresh the app and you should see errors. Read more about how to configure the [`cors` package](https://npmjs.org/package/cors) and try different configurations.
-
+The project used a Dev Academy project written by joshuavial, don-smith, and richchurcher as an an Express/React/Webpack boilerplate.
