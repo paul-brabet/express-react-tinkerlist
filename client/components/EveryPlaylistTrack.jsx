@@ -26,6 +26,8 @@ class EveryPlaylistTrack extends React.Component {
     return (
       <div>
         <h2>Super playlist</h2>
+        <button>Remove duplicates</button>
+        <Link to="/createSuperlist"><button>Add playlist to my collection</button></Link>
         {everyPlaylistTrack.map(function(trackData) {
           return (
             <div key={trackData.track.id + trackData.added_at}>
