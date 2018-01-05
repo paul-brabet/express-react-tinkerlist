@@ -18,3 +18,7 @@ This project is still in its early stages. However the basic structure is there,
 ## Thanks
 
 The project used a Dev Academy project written by joshuavial, don-smith, and richchurcher as an an Express/React/Webpack boilerplate.
+
+## License
+
+This project is licensed under the terms of the MIT license.
