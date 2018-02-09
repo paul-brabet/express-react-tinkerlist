@@ -9,6 +9,7 @@ import Error from './Error'
 import RecentTracks from './RecentTracks'
 import AllPlaylists from './AllPlaylists'
 import EveryPlaylistTrack from './EveryPlaylistTrack'
+import CreateSuperlist from './CreateSuperlist'
 
 export default class App extends React.Component {
 
@@ -20,6 +21,7 @@ export default class App extends React.Component {
           <Route path='/recentTracks' component={RecentTracks} />
           <Route path='/allPlaylists' component={AllPlaylists} />
           <Route path='/everyPlaylistTrack' component={EveryPlaylistTrack} />
+          <Route path='/createSuperlist' component={CreateSuperlist} />          
           <Route path='/user/:accessToken/:refreshToken' component={User} />
           <Route path='/error/:errorMsg' component={Error} />
         </div>
