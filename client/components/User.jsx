@@ -27,6 +27,7 @@ class User extends React.Component {
         <img src={imageUrl} />
         <Link to="/recentTracks">See recent tracks</Link>
         <Link to="/allPlaylists">See all playlists</Link>
+        <Link to="/everyPlaylistTrack">Make superlist</Link>        
       </div>
     )
   }
