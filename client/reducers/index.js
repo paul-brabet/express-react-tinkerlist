@@ -6,7 +6,6 @@ import user from './user'
 import recentlyPlayed from './recentlyPlayed'
 import allPlaylists from './allPlaylists'
 
-
 export default combineReducers({
   tokens,
   loading,

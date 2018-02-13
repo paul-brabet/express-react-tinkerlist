@@ -7,7 +7,15 @@ var client_id = process.env.CLIENT_ID
 var client_secret = process.env.CLIENT_SECRET
 var redirect_uri = process.env.REDIRECT_URI
 var state_key = 'spotify_auth_state'
-var scope = ['user-read-private', 'user-read-email', 'user-read-recently-played', 'playlist-read-private', 'playlist-read-collaborative']
+var scope = [
+  'user-read-private',
+  'user-read-email', 
+  'user-read-recently-played', 
+  'playlist-read-private', 
+  'playlist-read-collaborative',
+  'playlist-modify-private',
+  'playlist-modify-public'
+]
 
 /** Configure spotify */
 const spotifyApi = new Spotify({
