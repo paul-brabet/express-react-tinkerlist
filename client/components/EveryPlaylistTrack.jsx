@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { getEveryPlaylistTrack } from '../actions/actions'
-import { Link } from 'react-router-dom'
 import TrackNoImage from './TrackNoImage'
 
 class EveryPlaylistTrack extends React.Component {

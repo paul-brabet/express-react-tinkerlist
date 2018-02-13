@@ -9,7 +9,6 @@ import Error from './Error'
 import RecentTracks from './RecentTracks'
 import AllPlaylists from './AllPlaylists'
 import EveryPlaylistTrack from './EveryPlaylistTrack'
-import CreateSuperlist from './CreateSuperlist'
 
 export default class App extends React.Component {
 
