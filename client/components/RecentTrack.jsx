@@ -4,7 +4,7 @@ import RecentTrackArtists from './RecentTrackArtists'
 function RecentTrack (props) {
   const artists = props.artists
   if (artists.length > 1) {
-    for (let i = 0; i < artists.length -1; i++) {
+    for (let i = 0; i < artists.length - 1; i++) {
       artists[i].name = artists[i].name + ','
     }
   }
@@ -14,13 +14,13 @@ function RecentTrack (props) {
       <p>Title: {props.title}</p>
       <p>Album: {props.album.name}</p>
       <p>Artist:
-        {artists.map(function(artist) {
-          return (
-            <span key={artist.id}>
-              <RecentTrackArtists artist={artist} />
-            </span>
-          )
-        })}
+      {artists.map(function (artist) {
+        return (
+          <span key={artist.id}>
+            <RecentTrackArtists artist={artist} />
+          </span>
+        )
+      })}
       </p>
     </div>
   )

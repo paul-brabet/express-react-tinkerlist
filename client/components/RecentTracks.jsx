@@ -1,6 +1,6 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { getMyRecentlyPlayed } from '../actions/actions'
+import {connect} from 'react-redux'
+import {getMyRecentlyPlayed} from '../actions/actions'
 import RecentTrack from './RecentTrack'
 
 class RecentTracks extends React.Component {
@@ -19,10 +19,10 @@ class RecentTracks extends React.Component {
     return (
       <div>
         <h2>Your recently played</h2>
-        {recentlyPlayed.map(function(item) {
+        {recentlyPlayed.map(function (item) {
           return (
             <div key={item.played_at}>
-              <RecentTrack 
+              <RecentTrack
                 title={item.track.name}
                 album={item.track.album}
                 artists={item.track.artists}

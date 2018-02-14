@@ -19,7 +19,7 @@ function login (callback) {
     })
 }
 
-function setToken({accessToken, refreshToken}) {
+function setToken ({accessToken, refreshToken}) {
   if (accessToken) {
     spotifyApi.setAccessToken(accessToken)
   }
