@@ -1,6 +1,6 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { createAndFillSuperlist } from '../actions/actions'
+import {connect} from 'react-redux'
+import {createAndFillSuperlist} from '../actions/actions'
 
 class User extends React.Component {
   componentDidMount () {
@@ -8,23 +8,23 @@ class User extends React.Component {
     this.props.createAndFillSuperlist(accessToken, this.props.userId, this.props.everyPlaylistTrack)
   }
 
+  // &apos; inside the p tag represents a '
   render () {
     const loadingStatus = this.props.loading.loading
 
-    if(loadingStatus) {
+    if (loadingStatus) {
       return (
         <div>
           <h2>Creating new playlist...</h2>
         </div>
       )
     }
-    
+
     return (
       <div>
-        <p>You have a new playlist called 'Superlist'! It contains all your playlists' tracks.</p>
+        <p>You have a new playlist called &apos;Superlist&apos;! It contains all your playlists&apos; tracks.</p>
       </div>
     )
-
   }
 }
 
@@ -33,7 +33,7 @@ function mapStateToProps (state) {
     tokens: state.tokens,
     loading: state.loading,
     userId: state.user.id,
-    everyPlaylistTrack: state.everyPlaylistTrack.everyPlaylistTrack,
+    everyPlaylistTrack: state.everyPlaylistTrack.everyPlaylistTrack
   }
 }
 

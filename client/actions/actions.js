@@ -27,45 +27,45 @@ export function setTokens ({accessToken, refreshToken}) {
   if (accessToken) {
     spotifyApi.setAccessToken(accessToken)
   }
-  return { type: SPOTIFY_TOKENS, accessToken, refreshToken }
+  return {type: SPOTIFY_TOKENS, accessToken, refreshToken}
 }
 
 /* get the user's info from the /me api */
 export function getMyInfo () {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({type: SPOTIFY_LOADING})
-    spotifyApi.getMe().then(data => {
+    spotifyApi.getMe().then((data) => {
       dispatch({type: SPOTIFY_ME_SUCCESS, data: data})
       dispatch({type: SPOTIFY_NOT_LOADING})
-    }).catch(e => {
+    }).catch((e) => {
       dispatch({type: SPOTIFY_ME_FAILURE, error: e})
-      dispatch({type: SPOTIFY_NOT_LOADING})      
+      dispatch({type: SPOTIFY_NOT_LOADING})
     })
   }
 }
 
 export function getMyRecentlyPlayed () {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({type: SPOTIFY_LOADING})
-    spotifyApi.getMyRecentlyPlayedTracks().then(data => {
+    spotifyApi.getMyRecentlyPlayedTracks().then((data) => {
       dispatch({type: SPOTIFY_MYRECPLAYED_SUCCESS, data: data})
       dispatch({type: SPOTIFY_NOT_LOADING})
-    }).catch(e => {
-      dispatch({type: SPOTIFY_MYRECPLAYED_FAILURE, error:e})
+    }).catch((e) => {
+      dispatch({type: SPOTIFY_MYRECPLAYED_FAILURE, error: e})
       dispatch({type: SPOTIFY_NOT_LOADING})
     })
   }
 }
 
 export function getUserPlaylists () {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({type: SPOTIFY_LOADING})
-    spotifyApi.getUserPlaylists().then(data => {
+    spotifyApi.getUserPlaylists().then((data) => {
       dispatch({type: SPOTIFY_NOT_LOADING})
       dispatch({type: SPOTIFY_ALLPLAYLISTS_SUCCESS, data: data})
-    }).catch(e => {
+    }).catch((e) => {
       dispatch({type: SPOTIFY_NOT_LOADING})
-      dispatch({type: SPOTIFY_ALLPLAYLISTS_FAILURE, error:e})
+      dispatch({type: SPOTIFY_ALLPLAYLISTS_FAILURE, error: e})
     })
   }
 }
@@ -74,16 +74,16 @@ export function getUserPlaylists () {
  * Gets all playlists.
  */
 
- // Export function govern dispatches
+// Export function govern dispatches
 export function getAllUserPlaylists (accessToken) {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({type: SPOTIFY_LOADING})
-    getPlaylists(accessToken, 'https://api.spotify.com/v1/me/playlists').then(data => {
+    getPlaylists(accessToken, 'https://api.spotify.com/v1/me/playlists').then((data) => {
       dispatch({type: SPOTIFY_NOT_LOADING})
       dispatch({type: SPOTIFY_ALLPLAYLISTS_SUCCESS, data: data})
-    }).catch(e => {
+    }).catch((e) => {
       dispatch({type: SPOTIFY_NOT_LOADING})
-      dispatch({type: SPOTIFY_ALLPLAYLISTS_FAILURE, error:e})
+      dispatch({type: SPOTIFY_ALLPLAYLISTS_FAILURE, error: e})
     })
   }
 }
@@ -98,7 +98,7 @@ function getPlaylists (accessToken, endpoint, totalPlaylists) {
     .set('Authorization', 'Bearer ' + accessToken)
     .set('Accept', 'application/json')
     .set('Content-Type', 'application/json')
-    .then(function(res) {
+    .then(function (res) {
       const endpoint = res.body.next
       if (!totalPlaylists) {
         totalPlaylists = res.body
@@ -110,7 +110,7 @@ function getPlaylists (accessToken, endpoint, totalPlaylists) {
       }
       return getPlaylists(accessToken, endpoint, totalPlaylists)
     })
-    .catch(function(err) {
+    .catch(function (err) {
       console.log(err.message)
     })
 }
@@ -119,22 +119,22 @@ function getPlaylists (accessToken, endpoint, totalPlaylists) {
  * Gets every track from every playlist
  */
 
- // Export function handles most dispatches and function calls.
+// Export function handles most dispatches and function calls.
 export function getEveryPlaylistTrack (accessToken) {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({type: SPOTIFY_LOADING})
-    getPlaylists (accessToken, 'https://api.spotify.com/v1/me/playlists')
-      .then(allPlaylists => {
+    getPlaylists(accessToken, 'https://api.spotify.com/v1/me/playlists')
+      .then((allPlaylists) => {
         loopOverPlaylistsForTracks(allPlaylists, accessToken, dispatch)
-          .then(allTracks => {
+          .then((allTracks) => {
             dispatch({type: SPOTIFY_NOT_LOADING})
             dispatch({type: SPOTIFY_EVERYPLAYLISTTRACK_SUCCESS, allTracks: allTracks.items})
           })
       })
-      .catch(e => {
+      .catch((e) => {
         console.log(e)
         dispatch({type: SPOTIFY_NOT_LOADING})
-        dispatch({type: SPOTIFY_EVERYPLAYLISTTRACK_FAILURE, error:e})
+        dispatch({type: SPOTIFY_EVERYPLAYLISTTRACK_FAILURE, error: e})
       })
   }
 }
@@ -147,12 +147,12 @@ async function loopOverPlaylistsForTracks (allPlaylists, accessToken, dispatch) 
     dispatch({type: SPOTIFY_PLAYLISTSREMAINING, remaining: remainingPlaylists})
     const playlistTracksEndpoint = playlist.tracks.href
     await getPlaylistTracks(accessToken, playlistTracksEndpoint)
-      .then(fullTrackList => {
+      .then((fullTrackList) => {
         remainingPlaylists--
         if (!allTracks) {
-          return allTracks = fullTrackList
+          allTracks = fullTrackList
         } else {
-          return allTracks.items = allTracks.items.concat(fullTrackList.items)
+          allTracks.items = allTracks.items.concat(fullTrackList.items)
         }
       })
   }
@@ -190,17 +190,16 @@ function getPlaylistTracks (accessToken, endpoint, fullTrackList) {
  */
 
 export function createAndFillSuperlist (accessToken, userId, tracks) {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({type: SPOTIFY_LOADING})
     createSuperlist(accessToken, userId)
       .then(function (location) {
-       addOneHundredPlusTracksToPlaylist(accessToken, location, tracks)
-        .then(function () {
-          dispatch({type: SPOTIFY_NOT_LOADING})
-        })
+        addOneHundredPlusTracksToPlaylist(accessToken, location, tracks)
+          .then(function () {
+            dispatch({type: SPOTIFY_NOT_LOADING})
+          })
       })
-
-      .catch(e => {
+      .catch((e) => {
         console.log(e)
         dispatch({type: SPOTIFY_NOT_LOADING})
       })
@@ -209,7 +208,7 @@ export function createAndFillSuperlist (accessToken, userId, tracks) {
 
 function createSuperlist (accessToken, userId) {
   return request
-    .post(`https://api.spotify.com/v1/users/` + userId + `/playlists`)
+    .post('https://api.spotify.com/v1/users/' + userId + '/playlists')
     .set('Authorization', 'Bearer ' + accessToken)
     .set('Accept', 'application/json')
     .set('Content-Type', 'application/json')
@@ -227,13 +226,13 @@ function createSuperlist (accessToken, userId) {
 // ** Incomplete as it doesn't return failedSearches yet **
 async function addOneHundredPlusTracksToPlaylist (accessToken, location, tracks) {
   let trackUris = []
-  let failedSearch = [] 
+  let failedSearch = []
   for (let i = 0; i < tracks.length; i++) {
     const trackUri = tracks[i].track.uri
     if (trackUri.startsWith('spotify:local:')) {
       const searchedTrack = findSpotifyTrack(accessToken, tracks[i].track)
       if (searchedTrack.total === 0) {
-        failedSearch.push(searchedTrackUri)
+        // failedSearch.push(searchedTrack.uri)
       } else if (searchedTrack.total === 1) {
         trackUris.push(searchedTrack.items[0].uri)
       }
@@ -241,28 +240,28 @@ async function addOneHundredPlusTracksToPlaylist (accessToken, location, tracks)
       trackUris.push(tracks[i].track.uri)
     }
     if (i + 1 === tracks.length) {
-      return addToPlaylist (accessToken, location, trackUris)
+      return addToPlaylist(accessToken, location, trackUris)
     }
     if (Number.isInteger((i + 1) / 100)) {
-      await addToPlaylist (accessToken, location, trackUris)
+      await addToPlaylist(accessToken, location, trackUris)
       trackUris = []
     }
   }
 }
 
-function addToPlaylist(accessToken, location, trackUris) {
+function addToPlaylist (accessToken, location, trackUris) {
   return request
     .post(location)
     .set('Authorization', 'Bearer ' + accessToken)
     .set('Accept', 'application/json')
     .set('Content-Type', 'applictracklistation/json')
     .send({'uris': trackUris})
-    .then(function(res) {
+    .then(function (res) {
       console.log(res.body)
     })
 }
 
-function findSpotifyTrack(accessToken, track) {
+function findSpotifyTrack (accessToken, track) {
   const trackName = track.name
   const album = track.album.name
   const artistsArr = []
@@ -281,7 +280,7 @@ function findSpotifyTrack(accessToken, track) {
       q: `album:${album} artist:${artists} track:${trackName}`,
       type: 'track'
     })
-    .then(function(res) {
+    .then(function (res) {
       return res.body
     })
 }

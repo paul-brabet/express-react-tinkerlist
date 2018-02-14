@@ -1,7 +1,7 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { getMyInfo, setTokens} from '../actions/actions'
-import { Link } from 'react-router-dom'
+import {connect} from 'react-redux'
+import {getMyInfo, setTokens} from '../actions/actions'
+import {Link} from 'react-router-dom'
 
 class User extends React.Component {
   componentDidMount () {
@@ -15,7 +15,9 @@ class User extends React.Component {
     const {tokens, loading, user} = this.props
     const {accessToken, refreshToken} = tokens
     const loadingStatus = loading.loading
-    const {display_name, images, id, email, external_urls, href, country, product} = user
+    const {images, id, email, href, country, product} = user
+    const displayName = user.display_name
+    const externalUrls = user.external_urls
     const imageUrl = images[0] ? images[0].url : ''
 
     if (loadingStatus) {
@@ -23,11 +25,11 @@ class User extends React.Component {
     }
     return (
       <div>
-        <h2>{`Logged in as  ${display_name}`}</h2>
+        <h2>{`Logged in as  ${displayName}`}</h2>
         <img src={imageUrl} />
         <Link to="/recentTracks">See recent tracks</Link>
         <Link to="/allPlaylists">See all playlists</Link>
-        <Link to="/everyPlaylistTrack">Make superlist</Link>        
+        <Link to="/everyPlaylistTrack">Make superlist</Link>
       </div>
     )
   }

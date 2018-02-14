@@ -4,7 +4,10 @@
         "es6": true,
         "node": true
     },
-    "extends": "eslint:recommended",
+    "extends": [
+        "standard",
+        "plugin:react/recommended"
+    ],
     "parserOptions": {
         "ecmaFeatures": {
             "experimentalObjectRestSpread": true,
@@ -13,6 +16,8 @@
         "sourceType": "module"
     },
     "plugins": [
+        "standard",
+        "promise",
         "react"
     ],
     "rules": {
@@ -31,6 +36,19 @@
         "semi": [
             "error",
             "never"
-        ]
+        ],
+        "no-unused-vars": "off",
+        "complexity": "warn",
+        "react/prop-types": "off",
+        "object-curly-spacing": [
+            "error", 
+            "never"
+        ],
+        "arrow-parens": [
+            "error", 
+            "always"
+        ],
+        "no-console": "error",
+        "no-warning-comments": "warn"
     }
 }

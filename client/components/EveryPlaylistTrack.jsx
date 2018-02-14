@@ -1,12 +1,12 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { getEveryPlaylistTrack } from '../actions/actions'
-import { Link } from 'react-router-dom'
+import {connect} from 'react-redux'
+import {getEveryPlaylistTrack} from '../actions/actions'
+import {Link} from 'react-router-dom'
 import TrackNoImage from './TrackNoImage'
 
 class EveryPlaylistTrack extends React.Component {
-  componentDidMount() {
-    const accessToken = this.props.tokens.accessToken    
+  componentDidMount () {
+    const accessToken = this.props.tokens.accessToken
     this.props.getEveryPlaylistTrack(accessToken)
   }
 
@@ -15,11 +15,11 @@ class EveryPlaylistTrack extends React.Component {
     const loadingStatus = this.props.loading.loading
     const remainingPlaylists = this.props.remainingPlaylists.playlistsRemaining
 
-    if(loadingStatus) {
+    if (loadingStatus) {
       return (
         <div>
           <h2>Loading...</h2>
-          <p>{remainingPlaylists ? remainingPlaylists : 'Lots of'} playlists left to process</p>
+          <p>{remainingPlaylists || 'Lots of'} playlists left to process</p>
         </div>
       )
     }
@@ -29,10 +29,10 @@ class EveryPlaylistTrack extends React.Component {
         <h2>Super playlist</h2>
         <button>Remove duplicates</button>
         <Link to="/createSuperlist"><button>Add playlist to my collection</button></Link>
-        {everyPlaylistTrack.map(function(trackData) {
+        {everyPlaylistTrack.map(function (trackData) {
           return (
             <div key={trackData.track.id + trackData.added_at}>
-              <TrackNoImage 
+              <TrackNoImage
                 title={trackData.track.name}
                 album={trackData.track.album.name}
                 artists={trackData.track.artists}
