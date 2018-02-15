@@ -1,7 +1,6 @@
 import React from 'react'
 import {HashRouter as Router, Route} from 'react-router-dom'
 
-import api from '../api'
 import Home from './Home'
 import Login from './Login'
 import User from './User'
