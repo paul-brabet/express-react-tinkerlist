@@ -43,23 +43,10 @@ export function loopOverPlaylistsForTracks (allPlaylists, accessToken, remaining
         return fulltracklist
       })
   })
-  // for (const playlist of allPlaylists.items) {
-  //   dispatch({type: SPOTIFY_PLAYLISTSREMAINING, remaining: remainingPlaylists})
-  //   const playlistTracksEndpoint = playlist.tracks.href
-  //   await getPlaylistTracks(accessToken, playlistTracksEndpoint)
-  //     .then((fullTrackList) => {
-  //       remainingPlaylists--
-  //       if (!allTracks) {
-  //         allTracks = fullTrackList
-  //       } else {
-  //         allTracks.items = allTracks.items.concat(fullTrackList.items)
-  //       }
-  //     })
-  // }
   return Promise.all(promises)
     .then((alltracks) => {
-      const reduced = alltracks.reduce((prev, curr) => [...prev, ...curr.items], [])
-      return {items: reduced}
+      const allTracksReduced = alltracks.reduce((prev, curr) => [...prev, ...curr.items], [])
+      return {items: allTracksReduced}
     })
 }
 
