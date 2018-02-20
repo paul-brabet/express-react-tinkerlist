@@ -102,17 +102,17 @@ export function getAllUserPlaylists (accessToken) {
 // Export function handles most dispatches and function calls.
 export function getEveryPlaylistTrack (accessToken) {
   return (dispatch) => {
+    const playlistsRemain = (numRemaining) => dispatch({type: SPOTIFY_PLAYLISTSREMAINING, remaining: numRemaining})
     dispatch({type: SPOTIFY_LOADING})
     getPlaylists(accessToken, 'https://api.spotify.com/v1/me/playlists')
       .then((allPlaylists) => {
-        loopOverPlaylistsForTracks(allPlaylists, accessToken, dispatch)
+        const requests = loopOverPlaylistsForTracks(allPlaylists, accessToken, playlistsRemain)
           .then((allTracks) => {
             dispatch({type: SPOTIFY_NOT_LOADING})
             dispatch({type: SPOTIFY_EVERYPLAYLISTTRACK_SUCCESS, allTracks: allTracks.items})
           })
       })
       .catch((e) => {
-        console.log(e)
         dispatch({type: SPOTIFY_NOT_LOADING})
         dispatch({type: SPOTIFY_EVERYPLAYLISTTRACK_FAILURE, error: e})
       })

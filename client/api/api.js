@@ -2,6 +2,8 @@ import Spotify from 'spotify-web-api-js'
 import request from 'superagent'
 const spotifyApi = new Spotify()
 
+export const SPOTIFY_PLAYLISTSREMAINING = 'SPOTIFY_PLAYLISTSREMAINING'
+
 // Gets a list of the user's playlists. Calls itself again if it hasn't gotten all playlists (limit of 20 playlists per call)
 export function getPlaylists (accessToken, endpoint, totalPlaylists) {
   if (!totalPlaylists) {
@@ -30,24 +32,35 @@ export function getPlaylists (accessToken, endpoint, totalPlaylists) {
 }
 
 // Calls getPlaylistTracks for every playlist. Tracks how many playlists are remaining. Returns allTracks once every track obtained
-export async function loopOverPlaylistsForTracks (allPlaylists, accessToken, dispatch) {
+export function loopOverPlaylistsForTracks (allPlaylists, accessToken, remaining) {
   let allTracks
   let remainingPlaylists = allPlaylists.items.length
-  for (const playlist of allPlaylists.items) {
-    dispatch({type: SPOTIFY_PLAYLISTSREMAINING, remaining: remainingPlaylists})
-    const playlistTracksEndpoint = playlist.tracks.href
-    await getPlaylistTracks(accessToken, playlistTracksEndpoint)
-      .then((fullTrackList) => {
+  const promises = allPlaylists.items.map((playlist) => {
+    return getPlaylistTracks(accessToken, playlist.tracks.href)
+      .then((fulltracklist) => {
         remainingPlaylists--
-        if (!allTracks) {
-          allTracks = fullTrackList
-        } else {
-          allTracks.items = allTracks.items.concat(fullTrackList.items)
-        }
+        remaining(remainingPlaylists)
+        return fulltracklist
       })
-  }
-  console.log(allTracks)
-  return allTracks
+  })
+  // for (const playlist of allPlaylists.items) {
+  //   dispatch({type: SPOTIFY_PLAYLISTSREMAINING, remaining: remainingPlaylists})
+  //   const playlistTracksEndpoint = playlist.tracks.href
+  //   await getPlaylistTracks(accessToken, playlistTracksEndpoint)
+  //     .then((fullTrackList) => {
+  //       remainingPlaylists--
+  //       if (!allTracks) {
+  //         allTracks = fullTrackList
+  //       } else {
+  //         allTracks.items = allTracks.items.concat(fullTrackList.items)
+  //       }
+  //     })
+  // }
+  return Promise.all(promises)
+    .then((alltracks) => {
+      const reduced = alltracks.reduce((prev, curr) => [...prev, ...curr.items], [])
+      return {items: reduced}
+    })
 }
 
 // Gets all tracks from a playlist. Loops if it hasn't gotten all tracks (limit of 100 tracks per call)
