@@ -1,6 +1,5 @@
 import {
-  SPOTIFY_MYRECPLAYED_SUCCESS,
-  SPOTIFY_MYRECPLAYED_FAILURE
+  SPOTIFY_MYRECPLAYED_SUCCESS
 } from '../actions/actions'
 
 const initialState = {
