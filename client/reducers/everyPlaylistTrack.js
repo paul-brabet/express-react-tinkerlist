@@ -1,6 +1,5 @@
 import {
-  SPOTIFY_EVERYPLAYLISTTRACK_SUCCESS,
-  SPOTIFY_EVERYPLAYLISTTRACK_FAILURE
+  SPOTIFY_EVERYPLAYLISTTRACK_SUCCESS
 } from '../actions/actions'
 
 const initialState = {
@@ -13,11 +12,6 @@ const everyPlaylistTrack = (state = initialState, action) => {
     return {
       ...state,
       everyPlaylistTrack: action.allTracks
-    }
-
-  case SPOTIFY_EVERYPLAYLISTTRACK_FAILURE: 
-    return {
-      state
     }
 
   default:

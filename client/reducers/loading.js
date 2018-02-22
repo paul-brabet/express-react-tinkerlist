@@ -15,9 +15,9 @@ const loading = (state = initialState, action) => {
       loading: true
     }
 
-  case SPOTIFY_NOT_LOADING: 
+  case SPOTIFY_NOT_LOADING:
     return {
-      ...state,      
+      ...state,
       loading: false
     }
 

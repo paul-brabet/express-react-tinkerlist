@@ -75,6 +75,10 @@ function getPlaylistTracks (accessToken, endpoint, fullTrackList) {
         return fullTrackList
       // }
     })
+    .catch((err) => {
+      error(err.message)
+      notLoading()
+    })
 }
 
 export function createSuperlist (accessToken, userId) {
@@ -88,6 +92,10 @@ export function createSuperlist (accessToken, userId) {
     .send({description: 'A playlist created by Tinkerlist'})
     .then(function (res) {
       return res.body.tracks.href
+    })
+    .catch((err) => {
+      error(err.message)
+      notLoading()
     })
 }
 
@@ -130,6 +138,10 @@ function addToPlaylist (accessToken, location, trackUris) {
     .then(function (res) {
       console.log(res.body)
     })
+    .catch((err) => {
+      error(err.message)
+      notLoading()
+    })
 }
 
 function findSpotifyTrack (accessToken, track) {
@@ -153,5 +165,9 @@ function findSpotifyTrack (accessToken, track) {
     })
     .then(function (res) {
       return res.body
+    })
+    .catch((err) => {
+      error(err.message)
+      notLoading()
     })
 }

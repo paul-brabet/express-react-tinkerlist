@@ -11,24 +11,13 @@ const spotifyApi = new Spotify()
 
 // our constants
 export const SPOTIFY_TOKENS = 'SPOTIFY_TOKENS'
-
 export const SPOTIFY_LOADING = 'SPOTIFY_LOADING'
 export const SPOTIFY_NOT_LOADING = 'SPOTIFY_NOT_LOADING'
-
 export const SPOTIFY_ME_SUCCESS = 'SPOTIFY_ME_SUCCESS'
-export const SPOTIFY_ME_FAILURE = 'SPOTIFY_ME_FAILURE'
-
 export const SPOTIFY_MYRECPLAYED_SUCCESS = 'SPOTIFY_MYRECPLAYED_SUCCESS'
-export const SPOTIFY_MYRECPLAYED_FAILURE = 'SPOTIFY_MYRECPLAYED_FAILURE'
-
 export const SPOTIFY_ALLPLAYLISTS_SUCCESS = 'SPOTIFY_ALLPLAYLISTS_SUCCESS'
-export const SPOTIFY_ALLPLAYLISTS_FAILURE = 'SPOTIFY_ALLPLAYLISTS_FAILURE'
-
 export const SPOTIFY_EVERYPLAYLISTTRACK_SUCCESS = 'SPOTIFY_EVERYPLAYLISTTRACK_SUCCESS'
-export const SPOTIFY_EVERYPLAYLISTTRACK_FAILURE = 'SPOTIFY_EVERYPLAYLISTTRACK_FAILURE'
-
 export const SPOTIFY_PLAYLISTSREMAINING = 'SPOTIFY_PLAYLISTSREMAINING'
-
 export const ERROR_MESSAGE = 'ERROR_MESSAGE'
 
 /** set the app's access and refresh tokens */
@@ -39,6 +28,20 @@ export function setTokens ({accessToken, refreshToken}) {
   return {type: SPOTIFY_TOKENS, accessToken, refreshToken}
 }
 
+/** Basic actions */
+export function error (message) {
+  return ({
+    type: ERROR_MESSAGE,
+    errorMessage: message
+  })
+}
+
+export function notLoading () {
+  return ({
+    type: SPOTIFY_NOT_LOADING
+  })
+}
+
 /* get the user's info from the /me api */
 export function getMyInfo () {
   return (dispatch) => {
@@ -46,9 +49,9 @@ export function getMyInfo () {
     spotifyApi.getMe().then((data) => {
       dispatch({type: SPOTIFY_ME_SUCCESS, data: data})
       dispatch({type: SPOTIFY_NOT_LOADING})
-    }).catch((e) => {
-      dispatch({type: SPOTIFY_ME_FAILURE, error: e})
-      dispatch({type: SPOTIFY_NOT_LOADING})
+    }).catch((err) => {
+      error(err.message)
+      notLoading()
     })
   }
 }
@@ -59,9 +62,9 @@ export function getMyRecentlyPlayed () {
     spotifyApi.getMyRecentlyPlayedTracks().then((data) => {
       dispatch({type: SPOTIFY_MYRECPLAYED_SUCCESS, data: data})
       dispatch({type: SPOTIFY_NOT_LOADING})
-    }).catch((e) => {
-      dispatch({type: SPOTIFY_MYRECPLAYED_FAILURE, error: e})
-      dispatch({type: SPOTIFY_NOT_LOADING})
+    }).catch((err) => {
+      error(err.message)
+      notLoading()
     })
   }
 }
@@ -72,9 +75,9 @@ export function getUserPlaylists () {
     spotifyApi.getUserPlaylists().then((data) => {
       dispatch({type: SPOTIFY_NOT_LOADING})
       dispatch({type: SPOTIFY_ALLPLAYLISTS_SUCCESS, data: data})
-    }).catch((e) => {
-      dispatch({type: SPOTIFY_NOT_LOADING})
-      dispatch({type: SPOTIFY_ALLPLAYLISTS_FAILURE, error: e})
+    }).catch((err) => {
+      error(err.message)
+      notLoading()
     })
   }
 }
@@ -111,10 +114,6 @@ export function getEveryPlaylistTrack (accessToken) {
             dispatch({type: SPOTIFY_EVERYPLAYLISTTRACK_SUCCESS, allTracks: allTracks.items})
           })
       })
-      .catch((e) => {
-        dispatch({type: SPOTIFY_NOT_LOADING})
-        dispatch({type: SPOTIFY_EVERYPLAYLISTTRACK_FAILURE, error: e})
-      })
   }
 }
 
@@ -132,22 +131,5 @@ export function createAndFillSuperlist (accessToken, userId, tracks) {
             dispatch({type: SPOTIFY_NOT_LOADING})
           })
       })
-      .catch((e) => {
-        console.log(e)
-        dispatch({type: SPOTIFY_NOT_LOADING})
-      })
   }
-}
-
-export function error (message) {
-  return ({
-    type: ERROR_MESSAGE,
-    errorMessage: message
-  })
-}
-
-export function notLoading () {
-  return ({
-    type: SPOTIFY_NOT_LOADING
-  })
 }
