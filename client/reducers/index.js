@@ -7,7 +7,7 @@ import recentlyPlayed from './recentlyPlayed'
 import allPlaylists from './allPlaylists'
 import everyPlaylistTrack from './everyPlaylistTrack'
 import remainingPlaylists from './remainingPlaylists'
-
+import error from './error'
 
 export default combineReducers({
   tokens,
@@ -16,5 +16,6 @@ export default combineReducers({
   recentlyPlayed,
   allPlaylists,
   everyPlaylistTrack,
-  remainingPlaylists
+  remainingPlaylists,
+  error
 })
