@@ -15,11 +15,6 @@ const recentlyPlayed = (state = initialState, action) => {
       tracks: action.data.items
     }
 
-  case SPOTIFY_MYRECPLAYED_FAILURE: 
-    return {
-      state
-    }
-
   default:
     return state
   }

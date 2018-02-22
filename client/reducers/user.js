@@ -1,6 +1,5 @@
 import {
-  SPOTIFY_ME_SUCCESS,
-  SPOTIFY_ME_FAILURE
+  SPOTIFY_ME_SUCCESS
 } from '../actions/actions'
 
 const initialState = {
@@ -19,7 +18,6 @@ const initialState = {
 
 const user = (state = initialState, action) => {
   switch (action.type) {
-
   // when we get the data merge it in
   case SPOTIFY_ME_SUCCESS:
     return {
@@ -37,12 +35,8 @@ const user = (state = initialState, action) => {
       uri: action.data.uri
     }
 
-  // currently no failure state :(
-  case SPOTIFY_ME_FAILURE:
-    return state;
-
   default:
-    return state;
+    return state
   }
 }
 

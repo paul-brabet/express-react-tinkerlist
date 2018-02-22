@@ -1,21 +1,24 @@
 import React from 'react'
+import {connect} from 'react-redux'
 
-// class Error extends React.Component () {
-//   render () {
-//     const { errorMsg } = this.props.params
-//     return (
-//       <div className='error'>
-//         <h2>An error occurred</h2>
-//         <p>{errorMsg}</p>
-//       </div>
-//     )
-//   }
-// }
-
-function Error () {
-  return (
-    <p>Error yo</p>
-  )
+const Error = (props) => {
+  if (props.message) {
+    return (
+      <div>
+        <p>{props.message}</p>
+      </div>
+    )
+  } else {
+    return (
+      <div />
+    )
+  }
 }
 
-export default Error
+const mapStateToProps = (state) => {
+  return {
+    message: state.error.errorMessage
+  }
+}
+
+export default connect(mapStateToProps)(Error)

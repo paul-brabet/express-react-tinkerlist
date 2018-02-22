@@ -1,6 +1,9 @@
 import Spotify from 'spotify-web-api-js'
 import request from 'superagent'
+import {error, notLoading} from '../actions/actions'
 const spotifyApi = new Spotify()
+
+export const SPOTIFY_PLAYLISTSREMAINING = 'SPOTIFY_PLAYLISTSREMAINING'
 
 // Gets a list of the user's playlists. Calls itself again if it hasn't gotten all playlists (limit of 20 playlists per call)
 export function getPlaylists (accessToken, endpoint, totalPlaylists) {
@@ -24,30 +27,29 @@ export function getPlaylists (accessToken, endpoint, totalPlaylists) {
       }
       return getPlaylists(accessToken, endpoint, totalPlaylists)
     })
-    .catch(function (err) {
-      console.log(err.message)
+    .catch((err) => {
+      error(err.message)
+      notLoading()
     })
 }
 
 // Calls getPlaylistTracks for every playlist. Tracks how many playlists are remaining. Returns allTracks once every track obtained
-export async function loopOverPlaylistsForTracks (allPlaylists, accessToken, dispatch) {
+export function loopOverPlaylistsForTracks (allPlaylists, accessToken, remaining) {
   let allTracks
   let remainingPlaylists = allPlaylists.items.length
-  for (const playlist of allPlaylists.items) {
-    dispatch({type: SPOTIFY_PLAYLISTSREMAINING, remaining: remainingPlaylists})
-    const playlistTracksEndpoint = playlist.tracks.href
-    await getPlaylistTracks(accessToken, playlistTracksEndpoint)
-      .then((fullTrackList) => {
+  const promises = allPlaylists.items.map((playlist) => {
+    return getPlaylistTracks(accessToken, playlist.tracks.href)
+      .then((fulltracklist) => {
         remainingPlaylists--
-        if (!allTracks) {
-          allTracks = fullTrackList
-        } else {
-          allTracks.items = allTracks.items.concat(fullTrackList.items)
-        }
+        remaining(remainingPlaylists)
+        return fulltracklist
       })
-  }
-  console.log(allTracks)
-  return allTracks
+  })
+  return Promise.all(promises)
+    .then((alltracks) => {
+      const allTracksReduced = alltracks.reduce((prev, curr) => [...prev, ...curr.items], [])
+      return {items: allTracksReduced}
+    })
 }
 
 // Gets all tracks from a playlist. Loops if it hasn't gotten all tracks (limit of 100 tracks per call)
@@ -73,6 +75,10 @@ function getPlaylistTracks (accessToken, endpoint, fullTrackList) {
         return fullTrackList
       // }
     })
+    .catch((err) => {
+      error(err.message)
+      notLoading()
+    })
 }
 
 export function createSuperlist (accessToken, userId) {
@@ -86,6 +92,10 @@ export function createSuperlist (accessToken, userId) {
     .send({description: 'A playlist created by Tinkerlist'})
     .then(function (res) {
       return res.body.tracks.href
+    })
+    .catch((err) => {
+      error(err.message)
+      notLoading()
     })
 }
 
@@ -128,6 +138,10 @@ function addToPlaylist (accessToken, location, trackUris) {
     .then(function (res) {
       console.log(res.body)
     })
+    .catch((err) => {
+      error(err.message)
+      notLoading()
+    })
 }
 
 function findSpotifyTrack (accessToken, track) {
@@ -151,5 +165,9 @@ function findSpotifyTrack (accessToken, track) {
     })
     .then(function (res) {
       return res.body
+    })
+    .catch((err) => {
+      error(err.message)
+      notLoading()
     })
 }

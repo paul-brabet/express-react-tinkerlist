@@ -1,4 +1,4 @@
-import { SPOTIFY_TOKENS } from '../actions/actions'
+import {SPOTIFY_TOKENS} from '../actions/actions'
 
 const initialState = {
   accessToken: null,
@@ -16,7 +16,7 @@ const tokens = (state = initialState, action) => {
     }
 
   default:
-    return state;
+    return state
   }
 }
 
