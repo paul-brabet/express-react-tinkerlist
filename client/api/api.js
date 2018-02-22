@@ -1,5 +1,6 @@
 import Spotify from 'spotify-web-api-js'
 import request from 'superagent'
+import {error, notLoading} from '../actions/actions'
 const spotifyApi = new Spotify()
 
 export const SPOTIFY_PLAYLISTSREMAINING = 'SPOTIFY_PLAYLISTSREMAINING'
@@ -26,8 +27,9 @@ export function getPlaylists (accessToken, endpoint, totalPlaylists) {
       }
       return getPlaylists(accessToken, endpoint, totalPlaylists)
     })
-    .catch(function (err) {
-      console.log(err.message)
+    .catch((err) => {
+      error(err.message)
+      notLoading()
     })
 }
 

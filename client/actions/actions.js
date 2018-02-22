@@ -29,6 +29,8 @@ export const SPOTIFY_EVERYPLAYLISTTRACK_FAILURE = 'SPOTIFY_EVERYPLAYLISTTRACK_FA
 
 export const SPOTIFY_PLAYLISTSREMAINING = 'SPOTIFY_PLAYLISTSREMAINING'
 
+export const ERROR_MESSAGE = 'ERROR_MESSAGE'
+
 /** set the app's access and refresh tokens */
 export function setTokens ({accessToken, refreshToken}) {
   if (accessToken) {
@@ -81,17 +83,14 @@ export function getUserPlaylists () {
  * Gets all playlists.
  */
 
-// Export function govern dispatches
 export function getAllUserPlaylists (accessToken) {
   return (dispatch) => {
     dispatch({type: SPOTIFY_LOADING})
-    getPlaylists(accessToken, 'https://api.spotify.com/v1/me/playlists').then((data) => {
-      dispatch({type: SPOTIFY_NOT_LOADING})
-      dispatch({type: SPOTIFY_ALLPLAYLISTS_SUCCESS, data: data})
-    }).catch((e) => {
-      dispatch({type: SPOTIFY_NOT_LOADING})
-      dispatch({type: SPOTIFY_ALLPLAYLISTS_FAILURE, error: e})
-    })
+    getPlaylists(accessToken, 'https://api.spotify.com/v1/me/playlists')
+      .then((data) => {
+        dispatch({type: SPOTIFY_NOT_LOADING})
+        dispatch({type: SPOTIFY_ALLPLAYLISTS_SUCCESS, data: data})
+      })
   }
 }
 
@@ -138,4 +137,17 @@ export function createAndFillSuperlist (accessToken, userId, tracks) {
         dispatch({type: SPOTIFY_NOT_LOADING})
       })
   }
+}
+
+export function error (message) {
+  return ({
+    type: ERROR_MESSAGE,
+    errorMessage: message
+  })
+}
+
+export function notLoading () {
+  return ({
+    type: SPOTIFY_NOT_LOADING
+  })
 }
