@@ -9,7 +9,8 @@
     "dev-client": "webpack-dev-server --hot --inline --content-base public",
     "dev-server": "nodemon --watch server server/index",
     "test": "jest sum",
-    "start": "node server/index"
+    "start": "node server/index",
+    "codecept": "./node_modules/.bin/codeceptjs"
   },
   "ava": {
     "require": "babel-register",
@@ -36,6 +37,7 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "babel-register": "^6.26.0",
+    "codeceptjs": "^1.1.5",
     "dotenv": "^4.0.0",
     "enzyme": "^3.2.0",
     "eslint": "^4.17.0",
