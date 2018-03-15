@@ -15,6 +15,17 @@ Further planned features include:
 
 This project is still in its early stages. However the basic structure is there, allowing a user to authenticate with Spotify, and can access playlist data it would otherwise be unable to.
 
+## Codecept testing
+
+In order to run Codecept testing, both Selenium and the server need to be running.
+
+To do so:
+- Run 'selenium-standalone start' in one terminal
+- Then run 'npm run dev' or 'npm start' in a second terminal
+- Then run 'npm run codecept' in a third terminal
+
+A Chrome window will pop up and run automated end-to-end testing.
+
 ## Thanks
 
 The project used a Dev Academy project written by joshuavial, don-smith, and richchurcher as an an Express/React/Webpack boilerplate.

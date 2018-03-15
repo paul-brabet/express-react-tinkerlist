@@ -9,6 +9,7 @@ import RecentTracks from './RecentTracks'
 import AllPlaylists from './AllPlaylists'
 import EveryPlaylistTrack from './EveryPlaylistTrack'
 import CreateSuperlist from './CreateSuperlist'
+import InvalidToken from './InvalidToken'
 
 export default class App extends React.Component {
   render () {
@@ -23,6 +24,7 @@ export default class App extends React.Component {
             <Route path='/everyPlaylistTrack' component={EveryPlaylistTrack} />
             <Route path='/createSuperlist' component={CreateSuperlist} />
             <Route path='/user/:accessToken/:refreshToken' component={User} />
+            <Route path='/error/invalidToken' component={InvalidToken} />
             <Route path='/error/:errorMsg' component={Error} />
           </div>
         </Router>

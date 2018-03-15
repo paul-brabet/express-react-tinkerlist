@@ -53,25 +53,28 @@ router.get('/callback', (req, res) => {
   } else {
     res.clearCookie(stateKey)
     // Retrieve an access token and a refresh token
-    spotifyApi.authorizationCodeGrant(code).then((data) => {
-      const expiresIn = data.body.expires_in
-      const accessToken = data.body.access_token
-      const refreshToken = data.body.refresh_token
-      console.log(data.body)
-      // Set the access token on the API object to use it in later calls
-      spotifyApi.setAccessToken(accessToken)
-      spotifyApi.setRefreshToken(refreshToken)
+    spotifyApi.authorizationCodeGrant(code)
+      .then((data) => {
+        const expiresIn = data.body.expires_in
+        const accessToken = data.body.access_token
+        const refreshToken = data.body.refresh_token
+        console.log(data.body)
+        // Set the access token on the API object to use it in later calls
+        spotifyApi.setAccessToken(accessToken)
+        spotifyApi.setRefreshToken(refreshToken)
 
-      // use the access token to access the Spotify Web API
-      spotifyApi.getMe().then(({body}) => {
-        console.log(body)
+        // use the access token to access the Spotify Web API
+        spotifyApi.getMe().then(({body}) => {
+          console.log(body)
+        })
+
+        // we can also pass the token to the browser to make requests from there
+        res.redirect(`/#/user/${accessToken}/${refreshToken}`)
       })
-
-      // we can also pass the token to the browser to make requests from there
-      res.redirect(`/#/user/${accessToken}/${refreshToken}`)
-    }).catch((err) => {
-      res.redirect('/#/error/invalid token')
-    })
+      .catch((err) => {
+        console.log(err)
+        res.redirect('/#/error/invalid token')
+      })
   }
 })
 

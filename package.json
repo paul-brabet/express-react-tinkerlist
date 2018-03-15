@@ -8,9 +8,9 @@
     "dev": "nodemon --watch server --inspect server server/index & webpack --watch",
     "dev-client": "webpack-dev-server --hot --inline --content-base public",
     "dev-server": "nodemon --watch server server/index",
-    "test": "jest sum",
+    "test": "jest",
     "start": "node server/index",
-    "codecept": "./node_modules/.bin/codeceptjs"
+    "codecept": "./node_modules/.bin/codeceptjs run --steps"
   },
   "ava": {
     "require": "babel-register",
