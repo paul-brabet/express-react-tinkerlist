@@ -3,7 +3,7 @@ var bodyParser = require('body-parser')
 var path = require('path')
 var cookieParser = require('cookie-parser')
 
-var apiRouter = require('./routes/api-routes')
+var apiRouter = require('./routes/routes')
 
 var server = express()
 
